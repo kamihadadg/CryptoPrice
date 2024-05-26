@@ -21,3 +21,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 pip freeze > requirements.txt
 pip install -r requirements.txt
+python -m venv env
