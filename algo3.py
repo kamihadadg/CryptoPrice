@@ -38,7 +38,7 @@ def predict_price(model, X_test, scaler, window_size=20):
 # Example usage:
 def trainticker(ticker):
 
-    window_size = 300
+    window_size = 20
     X, y, scaler = prepare_data(ticker, window_size=window_size)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
