@@ -52,6 +52,7 @@ def predict_price_from_csv(ticker):
     # Predict next day's Close price
     last_sma = data['SMA'].iloc[-1]
     next_close_pred = model.predict([[last_sma]])
-    print(f"Predicted Next Close Price for {ticker}: {next_close_pred[0]}")
+    print(next_close_pred[0])
+    return(next_close_pred[0])
 
 

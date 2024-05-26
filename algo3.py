@@ -45,4 +45,5 @@ def trainticker(ticker):
     model = train_model(X_train, y_train)
 
     predicted_price = predict_price(model, X_test[-1], scaler)
-    print("Predicted Price 3:", predicted_price)
+    print(predicted_price[0][0])
+    return(predicted_price[0][0])

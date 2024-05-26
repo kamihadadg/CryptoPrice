@@ -56,5 +56,6 @@ def predict_price_from_csv(ticker):
     last_upper_band = data['Upper_Band'].iloc[-1]
     last_lower_band = data['Lower_Band'].iloc[-1]
     next_close_pred = model.predict([[last_sma, last_upper_band, last_lower_band]])
-    print(f"Predicted Next Close Price for Bolinger {ticker}: {next_close_pred[0]}")
+    print(next_close_pred[0])
+    return(next_close_pred[0])
 
