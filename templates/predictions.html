@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Predictions</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
    
 <style>
     body {
@@ -52,6 +52,14 @@ tr:hover {
 
 </head>
 <body>
+
+    <button id="fetchDataButton">Fetch Data from Database</button> <!-- Button to fetch data -->
+    <!-- Button to open a new window with a specific address -->
+    <button id="GET_API">Get API</button>
+    <button id="Exchange_rate">Exchange_rate</button>
+    <button id="crypto_price">Crypto_Price</button>
+    
+
     <table>
         <tr>
             <th>Ticker</th>
@@ -68,9 +76,7 @@ tr:hover {
         </tr>
         {% endfor %}
     </table>
-    <button id="fetchDataButton">Fetch Data from Database</button> <!-- Button to fetch data -->
-        <!-- Button to open a new window with a specific address -->
-        <button id="openNewWindowButton">Open New Window</button>
+    
 
         <script>
             document.getElementById("fetchDataButton").addEventListener("click", function() {
@@ -82,13 +88,23 @@ tr:hover {
                         // If the request is successful, update the predictions table with the data
                         var predictionsTable = document.getElementById("predictionsTable");
                         predictionsTable.innerHTML = xhr.responseText;
+                        reload(); 
                     }
                 };
                 xhr.send();
             });
             
             
-            document.getElementById("openNewWindowButton").addEventListener("click", function() {
+            document.getElementById("crypto_price").addEventListener("click", function() {
+                // When the button is clicked, open a new window with the URL "/predictions"
+                var newWindow = window.open("/crypto_price", "_blank");
+            });
+
+            document.getElementById("Exchange_rate").addEventListener("click", function() {
+                // When the button is clicked, open a new window with the URL "/predictions"
+                var newWindow = window.open("/exchange_rates", "_blank");
+            });
+            document.getElementById("GET_API").addEventListener("click", function() {
                 // When the button is clicked, open a new window with the URL "/predictions"
                 var newWindow = window.open("/predictions", "_blank");
             });

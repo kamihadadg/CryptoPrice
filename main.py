@@ -4,6 +4,7 @@ from algo1 import predict_price_from_csv as PrP
 from algo2 import predict_price_from_csv as pbol
 from algo3 import trainticker as pboltr
 import warnings
+import requests
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -45,7 +46,43 @@ def get_predictions_html():
     
     return render_template('predictions.html', predictions=predictions)
     
+@app.route('/exchange_rates', methods=['GET'])
+def get_exchange_rates():
 
+    
+    # url = "https://openexchangerates.org/api/latest.json?app_id=a999320ecbe146e596a42c569297004e"
+
+    # headers = {"accept": "application/json"}
+
+    # response = requests.get(url, headers=headers)
+
+    # print(response.text)
+    
+    
+    endpoint = f"https://open.er-api.com/v6/latest"
+    response = requests.get(endpoint)
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(data)
+    else:
+        return jsonify({'error': 'Failed to fetch exchange rates'})
+    
+@app.route('/crypto_price', methods=['GET'])
+def get_cryptoprice():
+
+   # Fetch exchange rates from CoinGecko API
+    endpoint = "https://api.coingecko.com/api/v3/simple/price"
+    params = {
+        'ids': 'bitcoin,ethereum,cardano,internet-computer',
+        'vs_currencies': 'usd'
+    }
+    response = requests.get(endpoint, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(data)
+    else:
+        return jsonify({'error': 'Failed to fetch exchange rates'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
