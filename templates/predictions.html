@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Predictions</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+   
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.prediction {
+    font-weight: bold;
+    color: #008000; /* Green color for predicted prices */
+}
+
+.na {
+    color: #888;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row background color */
+}
+
+tr:hover {
+    background-color: #f2f2f2; /* Hover effect */
+}
+
+</style>
+
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Predicted Price 1</th>
+            <th>Predicted Price 2</th>
+            <th>Predicted Price 3</th>
+        </tr>
+        {% for ticker, preds in predictions.items() %}
+        <tr>
+            <td>{{ ticker }}</td>
+            <td class="{% if preds['Predicted Price 1'] != 'None' %}prediction{% else %}na{% endif %}">{{ preds['Predicted Price 1'] }}</td>
+            <td class="{% if preds['Predicted Price 2'] != 'None' %}prediction{% else %}na{% endif %}">{{ preds['Predicted Price 2'] }}</td>
+            <td class="{% if preds['Predicted Price 3'] != 'None' %}prediction{% else %}na{% endif %}">{{ preds['Predicted Price 3'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button id="fetchDataButton">Fetch Data from Database</button> <!-- Button to fetch data -->
+        <!-- Button to open a new window with a specific address -->
+        <button id="openNewWindowButton">Open New Window</button>
+
+        <script>
+            document.getElementById("fetchDataButton").addEventListener("click", function() {
+                // When the button is clicked, make an AJAX request to fetch data from the database
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/fetchdb", true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        // If the request is successful, update the predictions table with the data
+                        var predictionsTable = document.getElementById("predictionsTable");
+                        predictionsTable.innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.send();
+            });
+            
+            
+            document.getElementById("openNewWindowButton").addEventListener("click", function() {
+                // When the button is clicked, open a new window with the URL "/predictions"
+                var newWindow = window.open("/predictions", "_blank");
+            });
+            // document.getElementById("openNewWindowButton").addEventListener("click", function() {
+            //     // When the button is clicked, open a new window with the fetched data
+            //     var newWindow = window.open("", "_blank");
+            //     var xhr = new XMLHttpRequest();
+            //     xhr.open("GET", "/predictions", true);
+            //     xhr.onreadystatechange = function() {
+            //         if (xhr.readyState == 4 && xhr.status == 200) {
+            //             // If the request is successful, write the response text to the new window
+            //             newWindow.document.write(xhr.responseText);
+            //         }
+            //     };
+            //     xhr.send();
+            // });
+        </script>
+        
+</body>
+</html>
